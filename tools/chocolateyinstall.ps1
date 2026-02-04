@@ -1,18 +1,27 @@
 ﻿$ErrorActionPreference = 'Stop';
 
 $toolsDir   = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
+$sdk_version = "1.4.341.0" # Not using ChocolateyPackageVersion, since it's normalized.
 
-$url        = "https://sdk.lunarg.com/sdk/download/$($env:ChocolateyPackageVersion)/windows/VulkanSDK-$($env:ChocolateyPackageVersion)-Installer.exe"
+# Get install directory. Either specified in package params or default.
+$pp = Get-PackageParameters
+if ($pp.InstallDir) {
+  $installDir = $pp.InstallDir
+} else {
+  $installDir = "C:\VulkanSDK\$sdk_version"
+}
+$stateFile = Join-Path $toolsDir 'installDir.txt'
+$installDir | Out-File $stateFile -Encoding ASCII # persist for uninstaller
 
 $packageArgs = @{
   packageName   = $env:ChocolateyPackageName
   unzipLocation = $toolsDir
   fileType      = 'exe'
-  url           = $url
+  url           = "https://sdk.lunarg.com/sdk/download/$sdk_version/windows/vulkansdk-windows-X64-$sdk_version.exe"
   softwareName  = 'VulkanSDK*'
-  checksum      = 'b64471f3a720e649c1fae6535ea83b8c642655ebed1485bfdf15bf4d88f746d9'
+  checksum      = '5072AC63F0B00BC8C132BC0052BAC0456F61983BD9D5DD50F614E190472DB875'
   checksumType  = 'sha256'
-  silentArgs    = "/S"
+  silentArgs    = "install --accept-licenses --confirm-command --accept-messages --root=$installDir"
   validExitCodes= @(0)
 }
 
