@@ -3,12 +3,12 @@
   <metadata>
     <id>vulkan-sdk</id>
     <version>1.4.341.0</version>
-    <packageSourceUrl>https://github.com/jambonmcyeah/vulkan-sdk</packageSourceUrl>
-    <owners>jambon</owners>
+    <packageSourceUrl>https://github.com/DziubanMaciej/chocolatey-package-vulkan-sdk</packageSourceUrl>
+    <owners>mdziuban</owners>
     <title>Vulkan SDK</title>
     <authors>LunarG and Khronos Group</authors>
     <projectUrl>https://www.lunarg.com/vulkan-sdk/</projectUrl>
-    <iconUrl>https://raw.githack.com/jambonmcyeah/vulkan-sdk/master/icon.png</iconUrl>
+    <iconUrl>https://raw.githack.com/DziubanMaciej/chocolatey-package-vulkan-sdk/master/icon.png</iconUrl>
     <copyright>
         © 2015-2019 LunarG, Inc.
         © 2015-2019 Valve Corporation
@@ -18,7 +18,7 @@
     <projectSourceUrl>https://github.com/KhronosGroup</projectSourceUrl>
     <docsUrl>https://vulkan.lunarg.com/doc/sdk</docsUrl>
     <bugTrackerUrl>https://github.com/KhronosGroup/</bugTrackerUrl>
-    <tags>vulkan gpu sdk</tags>
+    <tags>vulkan gpu sdk lunarg graphics</tags>
     <summary>The SDK for developing Vulkan applications</summary>
     <description>
 The SDK provides the development and runtime components for building, running, and debugging Vulkan applications.
