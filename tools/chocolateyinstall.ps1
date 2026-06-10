@@ -1,7 +1,7 @@
 ﻿$ErrorActionPreference = 'Stop';
 
 $toolsDir   = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
-$sdk_version = "1.4.341.0" # Not using ChocolateyPackageVersion, since it's normalized.
+$sdk_version = "1.4.350.0" # Not using ChocolateyPackageVersion, since it's normalized.
 
 # Get install directory. Either specified in package params or default.
 $pp = Get-PackageParameters
@@ -19,7 +19,7 @@ $packageArgs = @{
   fileType      = 'exe'
   url           = "https://sdk.lunarg.com/sdk/download/$sdk_version/windows/vulkansdk-windows-X64-$sdk_version.exe"
   softwareName  = 'VulkanSDK*'
-  checksum      = '5072AC63F0B00BC8C132BC0052BAC0456F61983BD9D5DD50F614E190472DB875'
+  checksum      = '855B27BA05D2D8119C5114C5D4FF870CA38F2C632B11E1BB9923B9B7E6ECFE7B'
   checksumType  = 'sha256'
   silentArgs    = "install --accept-licenses --confirm-command --accept-messages --root=$installDir"
   validExitCodes= @(0)

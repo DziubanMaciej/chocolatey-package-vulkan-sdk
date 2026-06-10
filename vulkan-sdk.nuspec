@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
   <metadata>
     <id>vulkan-sdk</id>
-    <version>1.4.341.0</version>
+    <version>1.4.350.0</version>
     <packageSourceUrl>https://github.com/DziubanMaciej/chocolatey-package-vulkan-sdk</packageSourceUrl>
     <owners>mdziuban</owners>
     <title>Vulkan SDK</title>
@@ -21,11 +21,17 @@
     <tags>vulkan gpu sdk lunarg graphics</tags>
     <summary>The SDK for developing Vulkan applications</summary>
     <description>
-The SDK provides the development and runtime components for building, running, and debugging Vulkan applications.
 
-This comprehensive SDK includes the Vulkan loader, Vulkan layers, debugging tools, SPIR‐V tools, the Vulkan run time installer, documentation, samples, and demos.
+## Overview
+The Vulkan SDK provides the development and runtime components to create, capture, and replay Vulkan applications.
+The SDK also includes the runtime components to load and run Vulkan Layers.
 
-A thorough Vulkan Tutorial is also included to step you through the process of creating a simple Vulkan application, learning the basics of Vulkan along the way.
+## Upgrading notes
+Vulkan SDK installer allows side-by-side installations of multiple versions and does not remove old versions.
+This package does *not* implement any behavior to override that, so running `choco upgrade` will leave you with both old and new versions.
+The old version has to be removed by either
+- running `choco uninstall vulkan-sdk` *before* upgrading,
+- manually uninstalling old version *after* upgrading.
     </description>
     <releaseNotes>
 https://vulkan.lunarg.com/doc/view/latest/windows/release_notes.html
