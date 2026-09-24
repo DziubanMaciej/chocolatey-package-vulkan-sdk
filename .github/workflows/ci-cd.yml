@@ -1,0 +1,56 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  build-and-publish:
+    name: Build & Publish Package
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Chocolatey Package
+        shell: pwsh
+        run: |
+          choco pack vulkan-sdk.nuspec
+
+      - name: Upload nupkg artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: chocolatey-package
+          path: '*.nupkg'
+
+      - name: Publish to Chocolatey
+        if: (github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')) || github.event_name == 'workflow_dispatch'
+        shell: pwsh
+        env:
+          CHOCOLATEY_API_KEY: ${{ secrets.CHOCOLATEY_API_KEY }}
+          CHOCO_API_KEY: ${{ secrets.CHOCO_API_KEY }}
+        run: |
+          $apiKey = $env:CHOCOLATEY_API_KEY
+          if (-not $apiKey) {
+            $apiKey = $env:CHOCO_API_KEY
+          }
+          if (-not $apiKey) {
+            Write-Error "CHOCOLATEY_API_KEY (or CHOCO_API_KEY) secret is not set in repository secrets."
+            exit 1
+          }
+
+          $pkg = Get-ChildItem -Filter *.nupkg | Select-Object -First 1
+          if (-not $pkg) {
+            Write-Error "No .nupkg file found to publish."
+            exit 1
+          }
+
+          Write-Host "Publishing $($pkg.Name) to Chocolatey..."
+          choco push $pkg.FullName --api-key $apiKey --source https://push.chocolatey.org/

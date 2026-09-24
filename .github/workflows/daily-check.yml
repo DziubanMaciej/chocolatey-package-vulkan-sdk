@@ -1,0 +1,48 @@
+name: Daily Version Check
+
+on:
+  schedule:
+    # Run every day at 06:00 UTC
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check-version:
+    name: Check for New Vulkan SDK Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Check for updates
+        id: check_update
+        run: |
+          python3 scripts/update-version.py
+
+      - name: Create Pull Request
+        if: steps.check_update.outputs.updated == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Update Vulkan SDK to ${{ steps.check_update.outputs.version }}"
+          title: "Update Vulkan SDK to ${{ steps.check_update.outputs.version }}"
+          body: |
+            Automated update detected a new Vulkan SDK release from LunarG.
+
+            - **New Version**: `${{ steps.check_update.outputs.version }}`
+            - **Previous Version**: `${{ steps.check_update.outputs.old_version }}`
+            - **Installer SHA-256**: `${{ steps.check_update.outputs.sha256 }}`
+            - **Source**: [LunarG Vulkan SDK API](https://vulkan.lunarg.com/content/view/latest-sdk-version-api)
+
+            Triggered by daily scheduled check.
+          branch: "update-vulkan-sdk-${{ steps.check_update.outputs.version }}"
+          delete-branch: true
