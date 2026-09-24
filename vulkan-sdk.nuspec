@@ -1,8 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
   <metadata>
     <id>vulkan-sdk</id>
-    <version>1.4.341.0</version>
+    <version>1.4.357.0</version>
     <packageSourceUrl>https://github.com/DziubanMaciej/chocolatey-package-vulkan-sdk</packageSourceUrl>
     <owners>mdziuban</owners>
     <title>Vulkan SDK</title>
